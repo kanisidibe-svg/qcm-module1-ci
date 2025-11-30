@@ -1,158 +1,142 @@
 import React, { useState } from 'react';
-import { CheckCircle, XCircle, Award, TrendingUp, AlertCircle } from 'lucide-react';
+import { CheckCircle, XCircle, Award, TrendingUp, AlertCircle, RotateCcw } from 'lucide-react';
 
-// [INSÉRER ICI TOUT LE CODE DE L'ARTEFACT exercice-synthese-qcm]
-// (Le code complet est trop long pour être affiché ici, mais vous l'avez dans l'artefact)
+const ExerciceSynthese = () => {
+  const [selectedLevel, setSelectedLevel] = useState(null);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [answers, setAnswers] = useState([]);
+  const [showResults, setShowResults] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
 
-export default ExerciceSynthese;
-```
+  const questionsDebutant = [
+    {
+      question: "Qu'est-ce que le contrôle interne ?",
+      options: [
+        "Un événement ponctuel réalisé une fois par an",
+        "Un processus continu mis en œuvre par tous les niveaux de l'organisation",
+        "Une fonction exclusivement réservée aux auditeurs",
+        "Un contrôle exercé uniquement par la direction générale"
+      ],
+      correctAnswer: 1,
+      explanation: "Le contrôle interne est un processus continu impliquant tous les niveaux de l'organisation (dirigeants, managers, personnel opérationnel), destiné à fournir une assurance raisonnable quant à la réalisation des objectifs."
+    },
+    {
+      question: "Combien d'objectifs fondamentaux poursuit le contrôle interne ?",
+      options: ["1 objectif", "2 objectifs", "3 objectifs", "5 objectifs"],
+      correctAnswer: 2,
+      explanation: "Le contrôle interne poursuit 3 objectifs fondamentaux : (1) l'efficacité et l'efficience des opérations, (2) la fiabilité de l'information financière, et (3) la conformité aux lois et règlements."
+    },
+    {
+      question: "Dans le modèle des 3 lignes de maîtrise, qui compose la 1ère ligne ?",
+      options: [
+        "Les auditeurs internes",
+        "Les contrôleurs budgétaires",
+        "Le management opérationnel",
+        "La direction générale"
+      ],
+      correctAnswer: 2,
+      explanation: "La 1ère ligne de maîtrise est constituée du management opérationnel (chefs de service, responsables d'activités). Ce sont eux les propriétaires des risques et qui mettent en œuvre les contrôles au quotidien."
+    },
+    {
+      question: "Combien de composantes compte le référentiel COSO 2013 ?",
+      options: ["3 composantes", "5 composantes", "8 composantes", "17 composantes"],
+      correctAnswer: 1,
+      explanation: "COSO 2013 repose sur 5 composantes : (1) Environnement de contrôle, (2) Évaluation des risques, (3) Activités de contrôle, (4) Information et communication, (5) Pilotage. Ces 5 composantes sont opérationnalisées par 17 principes."
+    },
+    {
+      question: "Quelle est l'innovation majeure de COSO 2013 par rapport à COSO initial ?",
+      options: [
+        "L'ajout de 3 nouvelles composantes",
+        "L'introduction de 17 principes opérationnels",
+        "La suppression de l'évaluation des risques",
+        "Le focus uniquement sur la conformité"
+      ],
+      correctAnswer: 1,
+      explanation: "L'innovation majeure de COSO 2013 est l'introduction de 17 principes fondamentaux qui permettent d'opérationnaliser concrètement les 5 composantes. Cela rend le référentiel plus actionnable et facilite les évaluations."
+    },
+    {
+      question: "Quel est le rôle de la 2ème ligne de maîtrise ?",
+      options: [
+        "Exécuter les opérations quotidiennes",
+        "Surveiller et conseiller",
+        "Auditer le dispositif de contrôle interne",
+        "Approuver les décisions stratégiques"
+      ],
+      correctAnswer: 1,
+      explanation: "La 2ème ligne de maîtrise (contrôleurs budgétaires, risk managers, conformité) a un rôle de surveillance et de conseil. Elle vérifie que la 1ère ligne applique bien les contrôles et conseille sur les bonnes pratiques."
+    },
+    {
+      question: "Que signifie 'assurance raisonnable' en contrôle interne ?",
+      options: [
+        "Une garantie absolue que les objectifs seront atteints",
+        "Une réduction des risques, mais pas leur élimination totale",
+        "Une assurance fournie uniquement par les assureurs",
+        "Une certification ISO obligatoire"
+      ],
+      correctAnswer: 1,
+      explanation: "L'assurance raisonnable signifie que le contrôle interne vise à réduire les risques à un niveau acceptable, mais ne peut pas les éliminer totalement. Aucun système n'est infaillible à 100%."
+    },
+    {
+      question: "Combien de principes compte le référentiel ISO 31000:2018 ?",
+      options: ["5 principes", "8 principes", "17 principes", "20 principes"],
+      correctAnswer: 1,
+      explanation: "ISO 31000:2018 repose sur 8 principes : Intégré, Structuré, Personnalisé, Inclusif, Dynamique, Fondé sur l'information, Facteurs humains et culturels, Amélioration continue."
+    },
+    {
+      question: "Quelle est la première étape du processus ISO 31000 ?",
+      options: [
+        "Identifier les risques",
+        "Établir le contexte",
+        "Évaluer les risques",
+        "Traiter les risques"
+      ],
+      correctAnswer: 1,
+      explanation: "La première étape du processus ISO 31000 est 'Établir le contexte', qui consiste à définir les objectifs, le périmètre et les critères d'évaluation avant d'identifier les risques."
+    },
+    {
+      question: "Quelle est la différence principale entre le contrôle interne et le SMQ (Système de Management de la Qualité) ?",
+      options: [
+        "Le CI et le SMQ sont identiques",
+        "Le CI se concentre sur les risques et la conformité, le SMQ sur la qualité et la satisfaction client",
+        "Le CI est obligatoire, le SMQ est interdit",
+        "Le CI ne concerne que les finances, le SMQ que la production"
+      ],
+      correctAnswer: 1,
+      explanation: "Le CI se concentre sur la maîtrise des risques et la conformité réglementaire, tandis que le SMQ vise la qualité des produits/services et la satisfaction client. Les deux approches sont complémentaires et partagent des outils communs (documentation, amélioration continue, etc.)."
+    }
+  ];
 
-**💡 Note importante :** Le code complet du QCM est dans l'artefact `exercice-synthese-qcm`. Copiez TOUT le contenu et collez-le dans `src/App.jsx`.
-
----
-
-### **Étape 2.5 : Vérifier la structure complète**
-
-Votre dossier `qcm-module1` doit maintenant contenir :
-```
-qcm-module1/
-├── package.json
-├── vite.config.js
-├── index.html
-└── src/
-    ├── main.jsx
-    ├── index.css
-    └── App.jsx
-```
-
-✅ **6 fichiers au total**
-
----
-
-## 3️⃣ CRÉATION COMPTE VERCEL {#compte-vercel}
-
-### **Étape 3.1 : Aller sur Vercel**
-
-1. Ouvrez votre navigateur (Chrome, Firefox, Safari, Edge)
-2. Allez sur : **https://vercel.com**
-3. Cliquez sur **"Sign Up"** (Inscription) en haut à droite
-
----
-
-### **Étape 3.2 : Choisir la méthode d'inscription**
-
-Vous avez 3 options :
-
-**Option 1 - GitHub (RECOMMANDÉ) :**
-- Cliquez sur **"Continue with GitHub"**
-- Si vous n'avez pas de compte GitHub :
-  1. Cliquez sur "Create an account"
-  2. Remplissez le formulaire
-  3. Vérifiez votre email
-  4. Revenez sur Vercel
-  5. Cliquez sur "Continue with GitHub"
-
-**Option 2 - GitLab :**
-- Même procédure qu'avec GitHub
-
-**Option 3 - Email :**
-- Entrez votre adresse email
-- Cliquez sur "Continue"
-- Vérifiez votre boîte mail
-- Cliquez sur le lien de confirmation
-
----
-
-### **Étape 3.3 : Autoriser Vercel**
-
-1. GitHub vous demandera d'autoriser Vercel
-2. Cliquez sur **"Authorize Vercel"**
-3. Vous êtes redirigé vers le tableau de bord Vercel
-
-✅ **Votre compte Vercel est créé !**
-
----
-
-## 4️⃣ DÉPLOIEMENT SUR VERCEL {#déploiement}
-
-### **Méthode 1 : Via GitHub (RECOMMANDÉE - Plus facile)**
-
-#### **Étape 4.1 : Créer un dépôt GitHub**
-
-1. Allez sur **https://github.com**
-2. Connectez-vous
-3. Cliquez sur le **+** en haut à droite → **New repository**
-4. Nom du dépôt : `qcm-module1-ci`
-5. Visibilité : **Public**
-6. ✅ Cochez "Add a README file"
-7. Cliquez sur **"Create repository"**
-
----
-
-#### **Étape 4.2 : Uploader vos fichiers sur GitHub**
-
-**Via l'interface web (le plus simple) :**
-
-1. Sur la page de votre dépôt, cliquez sur **"uploading an existing file"** ou **"Add file" → "Upload files"**
-2. Glissez-déposez **TOUT LE DOSSIER** `qcm-module1` dans la zone
-3. Attendez que tous les fichiers soient chargés (⏱️ 1-2 minutes)
-4. En bas, dans "Commit changes", écrivez : `Initial commit`
-5. Cliquez sur **"Commit changes"**
-
-✅ **Vos fichiers sont sur GitHub !**
-
----
-
-#### **Étape 4.3 : Connecter GitHub à Vercel**
-
-1. Retournez sur **https://vercel.com**
-2. Cliquez sur **"New Project"** ou **"Add New..." → "Project"**
-3. Vous verrez **"Import Git Repository"**
-4. Cliquez sur **"Import"** à côté de votre dépôt `qcm-module1-ci`
-5. Si vous ne le voyez pas :
-   - Cliquez sur "Adjust GitHub App Permissions"
-   - Donnez accès à ce dépôt
-   - Revenez et cliquez sur "Import"
-
----
-
-#### **Étape 4.4 : Configurer le projet**
-
-Vercel va détecter automatiquement que c'est un projet **Vite + React**.
-
-**Configuration (ne rien changer sauf si indiqué) :**
-
-| Champ | Valeur | Action |
-|-------|--------|--------|
-| **Project Name** | `qcm-module1-ci` | ✅ Laisser tel quel |
-| **Framework Preset** | `Vite` | ✅ Doit être détecté automatiquement |
-| **Root Directory** | `./` | ✅ Laisser tel quel |
-| **Build Command** | `npm run build` | ✅ Laisser tel quel |
-| **Output Directory** | `dist` | ✅ Laisser tel quel |
-| **Install Command** | `npm install` | ✅ Laisser tel quel |
-
-**Environment Variables :**
-- ❌ **Aucune** nécessaire
-
----
-
-#### **Étape 4.5 : Déployer !**
-
-1. Vérifiez que tout est correct
-2. Cliquez sur **"Deploy"** (le gros bouton bleu)
-3. ⏱️ **Attendez 2-3 minutes** pendant que Vercel :
-   - Installe les dépendances
-   - Compile le projet
-   - Déploie sur les serveurs
-
----
-
-#### **Étape 4.6 : Succès ! 🎉**
-
-Vous devriez voir :
-```
-✅ Deployment Complete
-
-🎉 Your project has been successfully deployed!
-
-Visit: https://qcm-module1-ci-xxxxx.vercel.app
+  const questionsExperimente = [
+    {
+      question: "Combien de principes composent la première composante 'Environnement de contrôle' dans COSO 2013 ?",
+      options: ["3 principes", "4 principes", "5 principes", "6 principes"],
+      correctAnswer: 2,
+      explanation: "L'Environnement de contrôle compte 5 principes dans COSO 2013, notamment l'engagement en faveur de l'intégrité et des valeurs éthiques, l'indépendance du conseil d'administration, la définition des structures et des responsabilités, etc."
+    },
+    {
+      question: "Pourquoi la 3ème ligne de maîtrise doit-elle être indépendante ?",
+      options: [
+        "Pour réduire les coûts",
+        "Pour éviter les conflits d'intérêts et garantir l'objectivité des évaluations",
+        "Pour accélérer les processus",
+        "Pour remplacer le management"
+      ],
+      correctAnswer: 1,
+      explanation: "L'indépendance de la 3ème ligne (audit interne) est essentielle pour garantir l'objectivité des évaluations du dispositif de contrôle interne. Elle permet d'éviter tout conflit d'intérêts et d'assurer une assurance indépendante à la direction et au conseil d'administration."
+    },
+    {
+      question: "Quelle est l'évolution conceptuelle majeure entre COSO ERM 2004 et ERM 2017 ?",
+      options: [
+        "L'ajout de composantes",
+        "La suppression de la gestion des risques",
+        "L'intégration des opportunités en plus des menaces",
+        "Le focus uniquement sur les risques financiers"
+      ],
+      correctAnswer: 2,
+      explanation: "L'évolution majeure d'ERM 2017 est l'intégration d'une vision stratégique des risques incluant les opportunités, pas seulement les menaces. ERM 2017 passe d'une approche défensive (éviter les risques) à une approche stratégique (optimiser le rapport risque/opportunité pour créer de la valeur)."
+    },
+    {
+      question: "Que signifie le principe 'Intégré' dans ISO 31000:2018 ?",
+      options: [
+        "Le management des risques est une activité séparée",
+        "Le management des risques f
